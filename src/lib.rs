@@ -60,6 +60,8 @@ impl Weekday {
 
         match self.nth {
             None => is_correct_day,
+
+            // FIXME: this math is wrong where date.day() is evenly divisible by 7.
             Some(Nth(n)) => is_correct_day && n == (date.day() as u8 / 7 + 1),
         }
     }
@@ -155,6 +157,8 @@ impl Schedule {
                 self.current.day as u32,
             );
 
+            // FIXME: the not-earlier-than time filter is probably ineffective, because it's
+            // only testing the date, not the hours/minutes/seconds.
             if let LocalResult::Single(candidate) = candidate {
                 if candidate >= Local::today() && self.is_valid_weekday(&candidate) {
                     return candidate.and_hms(
