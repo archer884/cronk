@@ -60,9 +60,10 @@ impl Weekday {
 
         match self.nth {
             None => is_correct_day,
-
-            // FIXME: this math is wrong where date.day() is evenly divisible by 7.
-            Some(Nth(n)) => is_correct_day && n == (date.day() as u8 / 7 + 1),
+            Some(Nth(n)) => match date.day() % 7 {
+                0 => is_correct_day && n == (date.day() as u8 / 7),
+                _ => is_correct_day && n == (date.day() as u8 / 7 + 1),
+            }
         }
     }
 }
