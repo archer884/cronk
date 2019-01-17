@@ -24,11 +24,9 @@ fn main() {
         }),
     };
 
-    let (cronk_next_hundred, cronk_elapsed) = time!(
-        ScheduleIterator(expression.into_schedule())
-            .take(100)
-            .collect::<Vec<_>>()
-    );
+    let (cronk_next_hundred, cronk_elapsed) = time!(ScheduleIterator(expression.into_schedule())
+        .take(100)
+        .collect::<Vec<_>>());
 
     let other_schedule = "0 0 17 13 * Fri".parse::<CronSchedule>().unwrap();
     let (other_next_hundred, other_elapsed) =
@@ -37,7 +35,10 @@ fn main() {
     println!("Cronk: {:?}", cronk_elapsed);
     println!("Other: {:?}", other_elapsed);
 
-    for (left, right) in cronk_next_hundred.into_iter().zip(other_next_hundred.into_iter()) {
+    for (left, right) in cronk_next_hundred
+        .into_iter()
+        .zip(other_next_hundred.into_iter())
+    {
         println!("{} :: {}", left, right);
         assert_eq!(left, right);
     }
