@@ -32,9 +32,6 @@ fn main() {
     let (other_next_hundred, other_elapsed) =
         time!(other_schedule.upcoming(Local).take(100).collect::<Vec<_>>());
 
-    println!("Cronk: {:?}", cronk_elapsed);
-    println!("Other: {:?}", other_elapsed);
-
     for (left, right) in cronk_next_hundred
         .into_iter()
         .zip(other_next_hundred.into_iter())
@@ -42,6 +39,9 @@ fn main() {
         println!("{} :: {}", left, right);
         assert_eq!(left, right);
     }
+
+    println!("Cronk: {:?}", cronk_elapsed);
+    println!("Other: {:?}", other_elapsed);
 }
 
 struct ScheduleIterator(Schedule);
